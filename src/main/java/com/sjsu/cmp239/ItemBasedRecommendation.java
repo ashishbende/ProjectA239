@@ -1,29 +1,27 @@
 package com.sjsu.cmp239;
 
-import java.io.*;
-import java.util.*;
-
 import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.model.file.*;
-import org.apache.mahout.cf.taste.impl.neighborhood.*;
-import org.apache.mahout.cf.taste.impl.recommender.*;
-import org.apache.mahout.cf.taste.impl.similarity.*;
-import org.apache.mahout.cf.taste.model.*;
-import org.apache.mahout.cf.taste.neighborhood.*;
-import org.apache.mahout.cf.taste.recommender.*;
-import org.apache.mahout.cf.taste.similarity.*;
+import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
+import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
+import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.recommender.ItemBasedRecommender;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
+import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 
-/*
-*   Source: https://mahout.apache.org/users/recommender/userbased-5-minutes.html
-*   Created by Ashish 04/01/2016
-*   User Based Recommendation
-* */
+import java.io.File;
+import java.util.List;
 
-public class UserBasedRecommendation {
+/**
+ * Created by ashish on 4/8/16.
+ */
+public class ItemBasedRecommendation {
+
 
     static long userID = 0;
     static int noOfItemsRecommendations = 1;
-    static UserBasedRecommender movieRecommender = null;
+    static ItemBasedRecommender itemRecommender = null;
     static DataModel movieModel = null;
 
     public static void buildRecommender(String csvFile) {
@@ -31,17 +29,14 @@ public class UserBasedRecommendation {
         try {
 
             //get data-model from movieCSV File
-             movieModel = new FileDataModel(new File(csvFile));
+            movieModel = new FileDataModel(new File(csvFile));
 
             // build customerSimilarity coeffient
             // we will use pearson correlation similarity.
-            UserSimilarity customerSimilarity = new PearsonCorrelationSimilarity(movieModel);
-
-            // We will use all users who have similarity greater than 0.1
-            UserNeighborhood userNeighborhood = new ThresholdUserNeighborhood(0.1, customerSimilarity, movieModel);
+            ItemSimilarity itemSimilarity = new PearsonCorrelationSimilarity(movieModel);
 
             // Finally we will create our moive recommender.
-            movieRecommender = new GenericUserBasedRecommender(movieModel, userNeighborhood, customerSimilarity);
+            itemRecommender = new GenericItemBasedRecommender(movieModel, itemSimilarity);
 
             //Step 4:- Create object of UserBasedRecommender or ItemBasedRecommender
 
@@ -58,7 +53,7 @@ public class UserBasedRecommendation {
 
         List<RecommendedItem> recommendations = null;
         try {
-            recommendations = movieRecommender.recommend(userID, noOfItemsRecommendations);
+            recommendations = itemRecommender.recommend(userID, noOfItemsRecommendations);
         } catch (TasteException e) {
             System.out.println("Taste Exception in recommender");
             e.printStackTrace();
@@ -76,8 +71,8 @@ public class UserBasedRecommendation {
     }
 
 
-    public  UserBasedRecommender getMovieRecommender() {
-        return movieRecommender;
+    public  ItemBasedRecommender getMovieRecommender() {
+        return itemRecommender;
     }
 
     public  void setMovieRecommender(String csvFile) {
