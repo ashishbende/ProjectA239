@@ -10,8 +10,8 @@ import java.io.IOException;
 public class PreProcessor {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        String filePath = "/Users/Akshar/Documents/movieDataSet.csv";
-        String outputFile = "/Users/Akshar/Documents/movieDataSetOutput.csv";
+        String filePath = "/assets/input/movieDataSet.csv";
+        String outputFile = "/assets/output/movieDataSetOutput.csv";
         //boolean alreadyExists = new File(outputFile).exists();
 
         try {

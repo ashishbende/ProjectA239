@@ -10,7 +10,7 @@ import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
  */
 public class App {
 
-    static final String INPUT_CSV_DATASET = "/assets/movieDataSet.csv";
+    static final String INPUT_CSV_DATASET = "/assets/input/movieDataSet.csv";
 
 
     public static void main(String[] args) {
