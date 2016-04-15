@@ -22,11 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="ProjectOne" />
+        <module name="userBasedRecommendation" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ProjectOne" target="1.5" />
+      <module name="userBasedRecommendation" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
