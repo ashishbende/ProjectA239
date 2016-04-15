@@ -1,7 +1,9 @@
 package com.sjsu.cmp239;
 
+import com.sjsu.cmp239.collaborativeFiltering.EvaluateRecommendations;
+import com.sjsu.cmp239.collaborativeFiltering.ItemBasedRecommendation;
+import com.sjsu.cmp239.collaborativeFiltering.UserBasedRecommendation;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
-import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
 
 /**
  * Created by ashish on 4/8/16.
@@ -30,15 +32,15 @@ public class App {
 
         System.out.println(" \n ---- [UserbBased Recommendation] Evaluation Results ---- \n ");
         EvaluateRecommendations userRecoEval = new EvaluateRecommendations();
-        userRecoEval.setRecommender((GenericUserBasedRecommender)customUserRecommender.getMovieRecommender());
-        userRecoEval.setDataModel(customUserRecommender.getMovieModel());
+        EvaluateRecommendations.setRecommender((GenericUserBasedRecommender) customUserRecommender.getMovieRecommender());
+        EvaluateRecommendations.setDataModel(customUserRecommender.getMovieModel());
         userRecoEval.evalRecommender();
 
 
         System.out.println(" \n ---- [ItemBased Recommendation] Evaluation Results ---- \n ");
         EvaluateRecommendations itemRecoEval = new EvaluateRecommendations();
-        itemRecoEval.setRecommender((GenericUserBasedRecommender)customUserRecommender.getMovieRecommender());
-        itemRecoEval.setDataModel(customItemBasedRecommender.getMovieModel());
+        EvaluateRecommendations.setRecommender((GenericUserBasedRecommender) customUserRecommender.getMovieRecommender());
+        EvaluateRecommendations.setDataModel(customItemBasedRecommender.getMovieModel());
         itemRecoEval.evalRecommender();
     }
 }
