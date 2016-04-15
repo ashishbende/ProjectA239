@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/userBasedRecommendation.iml" filepath="$PROJECT_DIR$/userBasedRecommendation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ProjectA239.iml" filepath="$PROJECT_DIR$/.idea/ProjectA239.iml" />
     </modules>
   </component>
 </project>

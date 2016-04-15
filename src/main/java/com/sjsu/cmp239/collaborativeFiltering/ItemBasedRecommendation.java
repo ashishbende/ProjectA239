@@ -50,17 +50,24 @@ public class ItemBasedRecommendation {
 
     public void showRecommendations() {
 
-        List<RecommendedItem> recommendations = null;
+       // List<RecommendedItem> recommendations;
         try {
-            recommendations = itemRecommender.recommend(userID, noOfItemsRecommendations);
+            //System.out.println("User ID: "+userID+"# of Reco : "+noOfItemsRecommendations);
+
+            List<RecommendedItem> recommendations = itemRecommender.recommend(userID, noOfItemsRecommendations);
+
+           // List<RecommendedItem> recommendations = itemRecommender.recommend(userID, noOfItemsRecommendations);
+            //System.out.println("Recommendation: "+recommendations);
+
+            for (RecommendedItem recommendation : recommendations) {
+                System.out.println("Recommendation : [ Item : "  + recommendation.getItemID()+", SimValue: "+recommendation.getValue()+" ]");
+            }
+
         } catch (TasteException e) {
             System.out.println("Taste Exception in recommender");
             e.printStackTrace();
         }
 
-        for (RecommendedItem recommendation : recommendations) {
-            System.out.println("Movie : " + recommendation.getValue());
-        }
     }
 
 
@@ -70,11 +77,11 @@ public class ItemBasedRecommendation {
     }
 
 
-    public  ItemBasedRecommender getMovieRecommender() {
+    public  ItemBasedRecommender getItemRecommender() {
         return itemRecommender;
     }
 
-    public  void setMovieRecommender(String csvFile) {
+    public  void setItemRecommender(String csvFile) {
         buildRecommender(csvFile);
     }
 

@@ -60,14 +60,15 @@ public class UserBasedRecommendation {
         List<RecommendedItem> recommendations = null;
         try {
             recommendations = movieRecommender.recommend(userID, noOfItemsRecommendations);
+            for (RecommendedItem recommendation : recommendations) {
+                System.out.println("Recommendation : [ Movie: "  + recommendation.getItemID()+", SimValue: "+recommendation.getValue()+" ]");
+            }
         } catch (TasteException e) {
             System.out.println("Taste Exception in recommender");
             e.printStackTrace();
         }
 
-        for (RecommendedItem recommendation : recommendations) {
-            System.out.println("Movie : " + recommendation.getValue());
-        }
+
     }
 
 

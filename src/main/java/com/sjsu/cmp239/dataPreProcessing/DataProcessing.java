@@ -3,48 +3,90 @@ package com.sjsu.cmp239.dataPreProcessing;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
+
 
 /**
  * Created by ashish on 4/15/16.
  */
 public class DataProcessing {
 
-    private static final String inputCSV = "/home/ashish/SJSU/239/ProjectA239/src/main/assets/input/movies.csv";
+    private static final String inputCSV = "/home/ashish/SJSU/239/ProjectA239/src/main/assets/input/movieDataSet.csv";
     private static final String outputCSV = "/home/ashish/SJSU/239/ProjectA239/src/main/assets/output/output.csv";
-    private static final String[] OUTPUT_FILE_HEADER = {"UserID", "ItemID", "Ratings"};
-    private static String userID;
+    private static final String matrixFileCSV = "/home/ashish/SJSU/239/ProjectA239/src/main/assets/output/matrixFactorData.csv";
+
+    //private static final Object[] OUTPUT_FILE_HEADER = {"UserID","ItemID","Ratings"};
+    private static final String NL = System.getProperty("line.separator");
+    private static int userID;
     private static int itemID;
     private static String rating;
+
     // private static String []outputString;
 
 
-    public static void parseCSV() throws IOException {
+
+    public static void parseCSV() throws IOException{
         CSVParser parser = new CSVParser(new FileReader(inputCSV), CSVFormat.DEFAULT.withHeader());
-        CSVFormat outputFormat = CSVFormat.DEFAULT.withRecordSeparator(",");
+        CSVFormat outputFormat = CSVFormat.DEFAULT.withDelimiter(',').withRecordSeparator(NL);
+        CSVFormat matrixFormat = CSVFormat.DEFAULT.withDelimiter(',').withRecordSeparator(NL);
+
         FileWriter fileWriter = new FileWriter(outputCSV);
-        CSVPrinter printer = new CSVPrinter(fileWriter, outputFormat);
-        printer.printRecord(OUTPUT_FILE_HEADER);
-        printer.print('\n');
+        FileWriter matrixFileWriter = new FileWriter(matrixFileCSV);
+        CSVPrinter printer = new CSVPrinter(fileWriter,outputFormat);
+        CSVPrinter matrixPrinter = new CSVPrinter(matrixFileWriter,matrixFormat);
+
+
+        //  printer.printRecord(OUTPUT_FILE_HEADER);
         for (CSVRecord record : parser) {
-            userID = record.get("ID");
-            itemID = 0;
-            for (int i = 6; i < record.size() - 5; i++) {
+            userID = Integer.parseInt(record.get("ID"));
+            itemID=1;
+            for(int i=5;i<record.size();i++){
                 rating = record.get(i);
-                System.out.println("UserID: " + userID + " itemID: " + (itemID++) + " Rating: " + rating);
+                if(!rating.equalsIgnoreCase("N/A")){
+                    //rating="0";
+                    matrixPrinter.print(userID);
+                    matrixPrinter.print(itemID);
+                    matrixPrinter.print(rating);
+                    matrixPrinter.print(generateRandomNumber());
+                    matrixPrinter.println();
+                    //matrixPrinter.printRecords(matrixOutPut);
+                    printer.print(userID);
+                    printer.print(itemID);
+                    printer.print(rating);
+                    printer.println();
+                }
+                /*String output=userID+"\t"+itemID+"\t"+rating;
+                String matrixOutPut =userID+"\t"+itemID+"\t"+rating+"\t"+generateRandomNumber();
+*/
+                //String output=userID+","+itemID+","+rating;
+                //String matrixOutPut =userID+","+itemID+","+rating+","+generateRandomNumber();
+
+
+
+                //output="";
+                //printer.printRecords(userID,itemID,Integer.parseInt(rating));
+                // printer.print('\n');
+                System.out.println("UserID: "+userID+" itemID: "+ (itemID++)+" Rating: "+rating);
                 //outputString = new String[]{userID,String.valueOf(itemID),rating};
-                printer.printRecords(userID, itemID, rating);
-                printer.print('\n');
+                //printer.println();
             }
         }
         printer.close();
         parser.close();
+        matrixPrinter.close();
     }
 
-    public static void main(String[] args) {
+    public static long generateRandomNumber(){
+        Random r = new Random();
+        long unixTime = (long) (1293861599+r.nextDouble()*60*60*24*365);
+        return unixTime;
+    }
+    public static void main(String[]args){
 
         try {
             parseCSV();
